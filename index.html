@@ -1,485 +1,503 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OnlyChords</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnlyChords</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
 
-    /* HEADER */
-    .header { background:white; border-bottom:1px solid #ddd; padding:12px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
-    .logo { font-size:22px; font-weight:900; color:#111; }
-    .logo span { font-size:20px; }
-    .nav-tabs { display:flex; gap:8px; margin-left:auto; }
-    .nav-tab { padding:6px 16px; border-radius:20px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:12px; font-weight:700; color:#666; transition:all 0.2s; }
-    .nav-tab.active { background:#557799; border-color:#557799; color:white; }
+/* HEADER */
+.header { background:white; border-bottom:1px solid #ddd; padding:12px 20px; display:flex; align-items:center; gap:16px; }
+.logo { font-size:22px; font-weight:900; color:#111; }
+.logo span { font-size:20px; }
+.nav-tabs { display:flex; gap:8px; margin-left:auto; }
+.nav-tab { padding:6px 16px; border-radius:20px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:14px; font-weight:600; color:#555; transition:all .2s; }
+.nav-tab.active { background:#557799; border-color:#557799; color:white; }
 
-    /* BUSCADOR */
-    .search-section { padding:30px 20px; max-width:700px; margin:0 auto; }
-    .search-box { display:flex; gap:10px; margin-bottom:20px; }
-    .search-box input { flex:1; padding:12px 16px; font-size:15px; border:2px solid #ddd; border-radius:8px; outline:none; }
-    .search-box input:focus { border-color:#557799; }
-    .search-box button { padding:12px 24px; background:#557799; color:white; font-size:15px; font-weight:700; border:none; border-radius:8px; cursor:pointer; }
-    .search-box button:disabled { background:#aaa; cursor:wait; }
-    .msg { font-size:13px; margin-bottom:12px; font-style:italic; }
-    .msg.error { color:#cc3333; }
-    .msg.loading { color:#557799; }
+/* BUSCADOR */
+.search-section { padding:30px 20px; max-width:800px; margin:0 auto; }
+.search-box { display:flex; gap:10px; margin-bottom:20px; }
+.search-box input { flex:1; padding:12px 18px; border:2px solid #ddd; border-radius:8px; font-size:16px; outline:none; }
+.search-box input:focus { border-color:#557799; }
+.btn-buscar { padding:12px 24px; background:#557799; color:white; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; }
+.btn-buscar:hover { background:#446688; }
+.status { text-align:center; color:#888; font-size:14px; margin:10px 0; }
 
-    /* RESULTADO CANCION */
-    .cancion { background:white; border-radius:10px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
-    .cancion-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid #f0f0f0; }
-    .cancion-titulo { font-size:22px; font-weight:900; }
-    .cancion-artista { font-size:13px; color:#777; margin-top:2px; }
-    .cancion-meta { font-size:11px; color:#aaa; text-align:right; }
-    .seccion { margin-bottom:12px; border-radius:8px; overflow:hidden; border:1.5px solid #ddd; }
-    .seccion-label { padding:3px 12px; font-size:10px; font-weight:900; letter-spacing:1px; text-transform:uppercase; }
-    .sec-INTRO .seccion-label, .sec-OUTRO .seccion-label { background:#eee; color:#888; }
-    .sec-ESTROFA .seccion-label, .sec-VERSO .seccion-label { background:#ddeedd; color:#557755; }
-    .sec-ESTRIBILLO .seccion-label { background:#f2e0e0; color:#996666; }
-    .sec-PUENTE .seccion-label { background:#dceaf4; color:#557799; }
-    .compases { display:flex; flex-wrap:wrap; padding:8px; gap:6px; }
-    .compas { background:white; border:1px solid #e0e0e0; border-radius:6px; padding:6px 10px; min-width:80px; cursor:pointer; transition:background 0.15s; }
-    .compas:hover { background:#f0f7ff; }
-    .compas-acorde { font-size:18px; font-weight:900; color:#111; }
-    .compas-lyric { font-size:10px; color:#884848; font-style:italic; margin-top:2px; }
+/* CANCION */
+.cancion { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.cancion-titulo { font-size:26px; font-weight:900; margin-bottom:4px; }
+.cancion-meta { color:#888; font-size:14px; margin-bottom:16px; display:flex; gap:16px; }
+.seccion { margin-bottom:16px; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0; }
+.seccion-label { padding:6px 14px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+.compases { display:flex; flex-wrap:wrap; padding:10px; gap:6px; }
+.compas { background:white; border:1px solid #ddd; border-radius:6px; padding:8px 12px; min-width:80px; }
+.compas-acorde { font-size:20px; font-weight:900; color:#111; }
+.compas-letra { font-size:11px; color:#888; margin-top:3px; font-style:italic; }
 
-    /* BIBLIOTECA */
-    .biblioteca { padding:20px; max-width:900px; margin:0 auto; }
-    .bib-titulo { font-size:16px; font-weight:900; margin-bottom:12px; color:#333; }
+.sec-estrofa .seccion-label { background:#e8f0e8; color:#446644; }
+.sec-estrofa .compases { background:#f5faf5; }
+.sec-estribillo .seccion-label { background:#e8e8f8; color:#444488; }
+.sec-estribillo .compases { background:#f5f5fc; }
+.sec-puente .seccion-label { background:#e8f4f8; color:#336677; }
+.sec-puente .compases { background:#f0f8fc; }
+.sec-intro .seccion-label { background:#f8f0e8; color:#775533; }
+.sec-intro .compases { background:#fdf8f2; }
+.sec-outro .seccion-label { background:#f0f0f0; color:#555; }
+.sec-outro .compases { background:#fafafa; }
 
-    /* Selector raíz */
-    .raiz-selector { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
-    .raiz-btn { padding:6px 12px; border-radius:6px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:13px; font-weight:700; color:#555; transition:all 0.15s; }
-    .raiz-btn.active { background:#557799; border-color:#557799; color:white; }
+/* BIBLIOTECA */
+.bib-section { padding:20px; max-width:1100px; margin:0 auto; }
+.bib-controles { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; align-items:center; }
+.bib-nota-btns { display:flex; gap:6px; flex-wrap:wrap; }
+.btn-nota { padding:6px 12px; border-radius:6px; border:1.5px solid #ddd; background:white; cursor:pointer; font-weight:700; font-size:13px; color:#333; transition:all .2s; }
+.btn-nota.active { background:#557799; border-color:#557799; color:white; }
+.familia-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.btn-fam { padding:5px 14px; border-radius:16px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:13px; font-weight:600; color:#555; transition:all .2s; }
+.btn-fam.active { color:white; border-color:transparent; }
+.btn-fam[data-fam="mayor"].active { background:#2277bb; }
+.btn-fam[data-fam="menor"].active { background:#228855; }
+.btn-fam[data-fam="dominante"].active { background:#cc4433; }
+.btn-fam[data-fam="disminuido"].active { background:#aa8800; }
+.btn-fam[data-fam="semidim"].active { background:#cc6600; }
+.btn-fam[data-fam="aumentado"].active { background:#7744aa; }
+.btn-fam[data-fam="power"].active { background:#333; }
 
-    /* Selector familia */
-    .familia-selector { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
-    .familia-btn { padding:5px 14px; border-radius:15px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:12px; font-weight:700; color:#555; transition:all 0.15s; }
-    .familia-btn.active { color:white; border-color:transparent; }
-    .familia-mayor.active { background:#2d6a9f; }
-    .familia-menor.active { background:#2d8a5f; }
-    .familia-dominante.active { background:#c0392b; }
-    .familia-disminuido.active { background:#8e44ad; }
-    .familia-semidim.active { background:#d35400; }
-    .familia-aumentado.active { background:#16a085; }
-    .familia-power.active { background:#2c3e50; }
+.acordes-grid { display:flex; flex-wrap:wrap; gap:14px; }
+.acorde-card { background:white; border-radius:10px; padding:12px 14px; box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; transition:transform .15s, box-shadow .15s; min-width:110px; text-align:center; }
+.acorde-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.14); }
+.acorde-nombre { font-size:18px; font-weight:900; color:#111; margin-bottom:8px; }
+.acorde-formula { font-size:10px; color:#888; margin-bottom:8px; }
 
-    /* Grid de acordes */
-    .acordes-grid { display:flex; flex-wrap:wrap; gap:10px; }
-    .acorde-card { background:white; border:1px solid #ddd; border-radius:8px; padding:10px 14px; cursor:pointer; transition:all 0.15s; min-width:80px; text-align:center; }
-    .acorde-card:hover { border-color:#557799; background:#f0f7ff; transform:translateY(-1px); box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-    .acorde-nombre { font-size:16px; font-weight:900; color:#111; }
-    .acorde-posiciones { font-size:10px; color:#aaa; margin-top:2px; }
+/* DIAGRAMA SVG */
+.diagrama-wrap { display:flex; justify-content:center; }
 
-    /* MODAL DIAGRAMA */
-    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
-    .modal { background:white; border-radius:12px; padding:24px; max-width:500px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.2); max-height:90vh; overflow-y:auto; }
-    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
-    .modal-titulo { font-size:20px; font-weight:900; }
-    .modal-close { font-size:20px; cursor:pointer; color:#aaa; border:none; background:none; }
-    .modal-nav { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-    .modal-nav button { padding:6px 14px; border-radius:6px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:16px; font-weight:900; }
-    .modal-nav button:hover { background:#f0f0f0; }
-    .modal-pos-info { font-size:12px; color:#888; }
-    .modo-selector { display:flex; gap:6px; margin-bottom:12px; }
-    .modo-btn { padding:4px 12px; border-radius:12px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:11px; font-weight:700; color:#555; }
-    .modo-btn.active { background:#f5c842; border-color:#f5c842; color:#333; }
-    .diagrama-wrap { display:flex; justify-content:center; margin-bottom:16px; }
-    .modal-desc { font-size:12px; color:#555; line-height:1.6; font-style:italic; padding:10px; background:#f9f9f9; border-radius:6px; border-left:3px solid #557799; }
-    .modal-formula { font-size:11px; color:#888; margin-top:8px; }
-    .modal-midi { margin-top:10px; }
-    .midi-btn { padding:6px 16px; background:#2d6a9f; color:white; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:700; }
-    .midi-btn:hover { background:#1d5a8f; }
+/* MODAL DIAGRAMA */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:white; border-radius:14px; padding:24px; max-width:420px; width:90%; box-shadow:0 8px 40px rgba(0,0,0,.2); position:relative; }
+.modal-close { position:absolute; top:12px; right:16px; font-size:22px; cursor:pointer; color:#888; border:none; background:none; }
+.modal-titulo { font-size:22px; font-weight:900; margin-bottom:4px; }
+.modal-formula { font-size:12px; color:#888; margin-bottom:12px; }
+.modal-nav { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:14px; }
+.btn-nav { background:#f0f0f0; border:none; border-radius:6px; padding:6px 14px; cursor:pointer; font-size:18px; font-weight:700; }
+.btn-nav:hover { background:#e0e0e0; }
+.modal-pos { font-size:13px; color:#666; }
+.modo-btns { display:flex; gap:6px; justify-content:center; margin-bottom:14px; }
+.btn-modo { padding:4px 12px; border-radius:12px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:12px; font-weight:600; color:#555; }
+.btn-modo.active { background:#557799; border-color:#557799; color:white; }
+.modal-desc { font-size:12px; color:#555; margin-top:12px; line-height:1.6; border-top:1px solid #eee; padding-top:10px; }
+.modal-midi { margin-top:10px; }
+.btn-play { background:#557799; color:white; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-size:14px; font-weight:700; width:100%; }
+.btn-play:hover { background:#446688; }
 
-    .loading-bib { text-align:center; padding:40px; color:#888; font-style:italic; }
-  </style>
+/* CUERDAS MUDA / AIRE labels */
+.cuerda-status { display:flex; justify-content:space-around; margin-bottom:4px; font-size:10px; font-weight:700; color:#888; width:100%; }
+
+.hidden { display:none; }
+</style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo"><span>🎸</span> OnlyChords</div>
+  <div class="logo">🎸 <span>OnlyChords</span></div>
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="showTab('buscador')">🔍 Buscador</div>
-    <div class="nav-tab" onclick="showTab('biblioteca')">📚 Biblioteca</div>
+    <button class="nav-tab active" onclick="mostrarTab('buscar')">🔍 Buscar</button>
+    <button class="nav-tab" onclick="mostrarTab('biblioteca')">📚 Biblioteca</button>
   </div>
 </div>
 
-<!-- BUSCADOR -->
-<div id="tab-buscador" class="search-section">
+<!-- TAB BUSCAR -->
+<div id="tab-buscar" class="search-section">
   <div class="search-box">
-    <input type="text" id="query" placeholder='Ej: "Yesterday Beatles" o "Autumn Leaves jazz"' />
-    <button id="btn-buscar" onclick="buscar()">Buscar</button>
+    <input id="inp" type="text" placeholder="Ej: Yesterday Beatles, Hotel California..." onkeydown="if(event.key==='Enter')buscar()">
+    <button class="btn-buscar" onclick="buscar()">Buscar</button>
   </div>
-  <div id="msg" class="msg" style="display:none"></div>
-  <div id="resultado" style="display:none"></div>
+  <div id="status" class="status"></div>
+  <div id="resultado"></div>
 </div>
 
-<!-- BIBLIOTECA -->
-<div id="tab-biblioteca" class="biblioteca" style="display:none">
-  <div class="bib-titulo">Biblioteca de Acordes</div>
-  <div id="bib-loading" class="loading-bib">Cargando acordes...</div>
-  <div id="bib-contenido" style="display:none">
-    <div class="raiz-selector" id="raiz-selector"></div>
-    <div class="familia-selector" id="familia-selector"></div>
-    <div class="acordes-grid" id="acordes-grid"></div>
+<!-- TAB BIBLIOTECA -->
+<div id="tab-biblioteca" class="bib-section hidden">
+  <div class="bib-controles">
+    <strong style="font-size:13px;color:#555;">Nota raíz:</strong>
+    <div class="bib-nota-btns" id="nota-btns"></div>
   </div>
+  <div class="familia-tabs" id="fam-tabs"></div>
+  <div class="subfamilia-tabs" id="subfam-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"></div>
+  <div class="acordes-grid" id="acordes-grid"></div>
 </div>
 
 <!-- MODAL -->
-<div id="modal" class="modal-overlay" style="display:none" onclick="cerrarModal(event)">
-  <div class="modal" onclick="e=>e.stopPropagation()">
-    <div class="modal-header">
-      <div class="modal-titulo" id="modal-titulo"></div>
-      <button class="modal-close" onclick="cerrarModal()">✕</button>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div class="modal-titulo" id="m-titulo"></div>
+    <div class="modal-formula" id="m-formula"></div>
+    <div class="modo-btns">
+      <button class="btn-modo active" onclick="setModo('intervalos')">Intervalos</button>
+      <button class="btn-modo" onclick="setModo('notas')">Notas</button>
+      <button class="btn-modo" onclick="setModo('dedos')">Dedos</button>
     </div>
     <div class="modal-nav">
-      <button onclick="navPos(-1)">←</button>
-      <span class="modal-pos-info" id="modal-pos-info"></span>
-      <button onclick="navPos(1)">→</button>
+      <button class="btn-nav" onclick="navPos(-1)">◀</button>
+      <span class="modal-pos" id="m-pos"></span>
+      <button class="btn-nav" onclick="navPos(1)">▶</button>
     </div>
-    <div class="modo-selector">
-      <div class="modo-btn active" onclick="setModo('intervalos',this)">Intervalos</div>
-      <div class="modo-btn" onclick="setModo('notas',this)">Notas</div>
-      <div class="modo-btn" onclick="setModo('dedos',this)">Dedos</div>
-    </div>
-    <div class="diagrama-wrap"><svg id="diagrama-svg"></svg></div>
-    <div id="modal-desc" class="modal-desc"></div>
-    <div id="modal-formula" class="modal-formula"></div>
+    <div class="cuerda-status" id="m-cuerdas-status"></div>
+    <div class="diagrama-wrap" id="m-diagrama"></div>
     <div class="modal-midi">
-      <button class="midi-btn" onclick="tocarAcorde()">▶ Escuchar</button>
+      <button class="btn-play" onclick="playAcorde()">▶ Escuchar acorde</button>
     </div>
+    <div class="modal-desc" id="m-desc"></div>
   </div>
 </div>
 
 <script>
-// ── Estado global ──────────────────────────────────────────
-let GUITAR = null;
-let currentRaiz = "C";
-let currentFamilia = "major";
-let currentAcordes = [];
-let currentPosIdx = 0;
-let currentModo = "intervalos";
-let audioCtx = null;
+// ─── DATOS ────────────────────────────────────────────────
+const NOTAS = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+const NOTAS_DISPLAY = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+const AFINACION = [4,9,2,7,11,4]; // E2 A2 D3 G3 B3 E4 en índices (MIDI base 40,45,50,55,59,64)
+const MIDI_BASE = [40,45,50,55,59,64]; // E2 A2 D3 G3 B3 E4
 
-// ── Mapeo familias ──────────────────────────────────────────
+// 7 familias con sufijos del JSON mapeados
 const FAMILIAS = [
-  { id:"major",   label:"Mayor",       clase:"familia-mayor" },
-  { id:"minor",   label:"Menor",       clase:"familia-menor" },
-  { id:"7",       label:"Dom 7",       clase:"familia-dominante" },
-  { id:"m7",      label:"m7",          clase:"familia-menor" },
-  { id:"maj7",    label:"Maj7",        clase:"familia-mayor" },
-  { id:"m7b5",    label:"m7b5",        clase:"familia-semidim" },
-  { id:"dim",     label:"Dim",         clase:"familia-disminuido" },
-  { id:"dim7",    label:"Dim7",        clase:"familia-disminuido" },
-  { id:"aug",     label:"Aug",         clase:"familia-aumentado" },
-  { id:"sus2",    label:"Sus2",        clase:"familia-mayor" },
-  { id:"sus4",    label:"Sus4",        clase:"familia-mayor" },
-  { id:"add9",    label:"Add9",        clase:"familia-mayor" },
-  { id:"9",       label:"Dom 9",       clase:"familia-dominante" },
-  { id:"m9",      label:"m9",          clase:"familia-menor" },
-  { id:"maj9",    label:"Maj9",        clase:"familia-mayor" },
-  { id:"13",      label:"Dom 13",      clase:"familia-dominante" },
-  { id:"5",       label:"Power",       clase:"familia-power" },
+  { id:'mayor', label:'Mayor 🔵', color:'#2277bb', sufijos:['major','maj7','maj9','6','69','add9','sus2','sus4','maj7#11'] },
+  { id:'menor', label:'Menor 🟢', color:'#228855', sufijos:['minor','m7','m9','m6','madd9','msus2','msus4','mmaj7','m11','m13'] },
+  { id:'dominante', label:'Dominante 🔴', color:'#cc4433', sufijos:['7','9','11','13','7sus4','7b5','7#5','7b9','7#9','9b5','13b9','13#9','7alt'] },
+  { id:'disminuido', label:'Disminuido 🟡', color:'#aa8800', sufijos:['dim','dim7','aug7','augmaj7'] },
+  { id:'semidim', label:'Semidism. 🟠', color:'#cc6600', sufijos:['m7b5','m9b5'] },
+  { id:'aumentado', label:'Aumentado 🟣', color:'#7744aa', sufijos:['aug'] },
+  { id:'power', label:'Power 🎸', color:'#333', sufijos:['5'] }
 ];
 
-const ITVS = ["1","b2","2","b3","3","4","b5","5","b6","6","b7","7"];
-const AFIN = [4,9,2,7,11,4]; // E A D G B E en índices MIDI mod 12
-const NOTAS = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+// Intervalos desde raíz
+const ITVS = ['T','b2','2','b3','3M','4','b5','5','b6','6','7m','7M'];
+const FORMULA_MAP = {
+  'major':'1-3M-5', 'minor':'1-3m-5', '7':'1-3M-5-7m', 'm7':'1-3m-5-7m',
+  'maj7':'1-3M-5-7M', 'm7b5':'1-3m-b5-7m', 'sus2':'1-2-5', 'sus4':'1-4-5',
+  'dim':'1-3m-b5', 'dim7':'1-3m-b5-6', 'aug':'1-3M-#5', '5':'1-5',
+  '6':'1-3M-5-6', 'm6':'1-3m-5-6', '9':'1-3M-5-7m-9', 'm9':'1-3m-5-7m-9',
+  'maj9':'1-3M-5-7M-9', 'add9':'1-3M-5-9', 'madd9':'1-3m-5-9',
+  '7b9':'1-3M-5-7m-b9', '7#9':'1-3M-5-7m-#9', '13':'1-3M-5-7m-9-13',
+  '7sus4':'1-4-5-7m', 'aug7':'1-3M-#5-7m', 'augmaj7':'1-3M-#5-7M',
+  'mmaj7':'1-3m-5-7M', '69':'1-3M-5-6-9', 'm11':'1-3m-5-7m-9-11'
+};
 
-function notaEnCuerda(cuerda, traste) {
-  return NOTAS[(AFIN[cuerda] + traste) % 12];
-}
-function intervalo(raiz, nota) {
-  const r = NOTAS.indexOf(raiz.replace("sharp","#").replace("b","").length>1 ? raiz : raiz);
-  const rIdx = NOTAS.indexOf(raiz.includes("sharp") ? raiz.replace("sharp","#") : raiz);
-  const nIdx = NOTAS.indexOf(nota);
-  if(rIdx===-1||nIdx===-1) return "";
-  return ITVS[(nIdx-rIdx+12)%12];
+const DESCRIPCIONES = {
+  'major':'El punto de partida de todo. Tónica, tercera mayor y quinta — la trinidad perfecta.',
+  'minor':'La melancolía hecha acorde. Tercera menor que lo oscurece todo. El favorito del flamenco y el blues.',
+  '7':'Tensión pura. Quiere resolver al mayor. El rey del blues — de BB King a Stevie Ray Vaughan.',
+  'm7':'Oscuro y sofisticado. El ii del jazz. Miles Davis lo usaba como pincel principal.',
+  'maj7':'Soñador y flotante. Huele a Ipanema. El favorito de la bossa nova — João Gilberto lo adoraba.',
+  'dim7':'Simétrico y perturbador. Se repite cada 3 trastes. Django Reinhardt lo dominaba como nadie.',
+  'aug':'Inestable, expansivo. La quinta aumentada crea tensión hacia arriba. Los Beatles lo usaban en momentos dramáticos.',
+  '7#9':'El acorde Hendrix. Tiene tercera mayor Y menor simultáneamente — una disonancia salvaje. Purple Haze.',
+  'sus2':'Sin tercera, abierto, moderno. El favorito del pop alternativo de los 90. Sting lo usaba constantemente.',
+  'sus4':'Suspensión clásica que resuelve al mayor. The Edge de U2 construyó su sonido sobre este acorde.',
+  '5':'Solo tónica y quinta — sin tercera. Ni mayor ni menor. El lenguaje universal del rock desde Chuck Berry.',
+  'm7b5':'El semidisminuido del jazz. El ii en tonalidad menor. Bill Evans lo amaba.',
+  'maj9':'Extensión del maj7, más color. Jazz moderno y bossa sofisticada.',
+  '9':'Dominante con novena — más colorido que el 7. El sabor del soul y el R&B.',
+  'add9':'Agrega novena sin séptima. Abierto y colorido sin tensión. Pop moderno.',
+  '6':'Mayor con sexta — elegante y luminoso. Perfecto para terminar una canción con clase.',
+  'dim':'Tríada disminuida — máxima tensión en tres notas. Música clásica y paso cromático.',
+  'mmaj7':'Oscuro e inquietante. La séptima mayor sobre menor crea tensión refinada. Jazz noir y tango moderno.'
+};
+
+// ─── ESTADO ───────────────────────────────────────────────
+let chordDB = null;
+let notaActiva = 'C';
+let famActiva = 'mayor';
+let subfamActiva = null;
+let modalAcorde = null; // {key, suffix, posIdx}
+let modoCirculo = 'intervalos';
+
+// ─── INIT ─────────────────────────────────────────────────
+window.onload = () => {
+  renderNotaBtns();
+  renderFamTabs();
+};
+
+function mostrarTab(tab) {
+  document.getElementById('tab-buscar').classList.toggle('hidden', tab !== 'buscar');
+  document.getElementById('tab-biblioteca').classList.toggle('hidden', tab !== 'biblioteca');
+  document.querySelectorAll('.nav-tab').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='buscar')||(i===1&&tab==='biblioteca')));
+  if (tab === 'biblioteca' && !chordDB) cargarDB();
 }
 
-// ── Tabs ──────────────────────────────────────────────────
-function showTab(tab) {
-  document.getElementById("tab-buscador").style.display = tab==="buscador" ? "block" : "none";
-  document.getElementById("tab-biblioteca").style.display = tab==="biblioteca" ? "block" : "none";
-  document.querySelectorAll(".nav-tab").forEach((el,i) => {
-    el.classList.toggle("active", (i===0&&tab==="buscador")||(i===1&&tab==="biblioteca"));
-  });
-  if(tab==="biblioteca" && !GUITAR) cargarBiblioteca();
-}
-
-// ── Cargar JSON ───────────────────────────────────────────
-async function cargarBiblioteca() {
+// ─── CARGAR JSON ──────────────────────────────────────────
+async function cargarDB() {
+  document.getElementById('acordes-grid').innerHTML = '<p style="color:#888;padding:20px">Cargando biblioteca de acordes...</p>';
   try {
-    const res = await fetch("/public/guitar.json");
-    GUITAR = await res.json();
-    iniciarBiblioteca();
+    const r = await fetch('/public/guitar.json');
+    if (!r.ok) throw new Error('No se pudo cargar guitar.json');
+    const data = await r.json();
+    chordDB = data.chords;
+    renderAcordes();
   } catch(e) {
-    document.getElementById("bib-loading").textContent = "Error cargando acordes: " + e.message;
+    document.getElementById('acordes-grid').innerHTML = `<p style="color:red;padding:20px">Error cargando biblioteca: ${e.message}</p>`;
   }
 }
 
-function iniciarBiblioteca() {
-  document.getElementById("bib-loading").style.display = "none";
-  document.getElementById("bib-contenido").style.display = "block";
-
-  // Raíces
-  const raices = GUITAR.keys || [];
-  const raizSel = document.getElementById("raiz-selector");
-  raizSel.innerHTML = raices.map(r =>
-    `<div class="raiz-btn ${r===currentRaiz?'active':''}" onclick="selRaiz('${r}')">${r.replace("sharp","#")}</div>`
-  ).join("");
-
-  // Familias
-  renderFamilias();
-  renderAcordes();
+// ─── RENDER CONTROLES ─────────────────────────────────────
+function renderNotaBtns() {
+  const c = document.getElementById('nota-btns');
+  c.innerHTML = NOTAS_DISPLAY.map(n =>
+    `<button class="btn-nota${n===notaActiva?' active':''}" onclick="setNota('${n}')">${n}</button>`
+  ).join('');
 }
 
-function renderFamilias() {
-  const sufijos = GUITAR.suffixes || [];
-  const famSel = document.getElementById("familia-selector");
-  famSel.innerHTML = FAMILIAS
-    .filter(f => sufijos.includes(f.id))
-    .map(f =>
-      `<div class="familia-btn ${f.clase} ${f.id===currentFamilia?'active':''}" onclick="selFamilia('${f.id}')">${f.label}</div>`
-    ).join("");
+function renderFamTabs() {
+  const c = document.getElementById('fam-tabs');
+  c.innerHTML = FAMILIAS.map(f =>
+    `<button class="btn-fam${f.id===famActiva?' active':''}" data-fam="${f.id}" onclick="setFam('${f.id}')">${f.label}</button>`
+  ).join('');
 }
 
+function setNota(n) { notaActiva = n; renderNotaBtns(); renderAcordes(); }
+function setFam(f) { famActiva = f; subfamActiva = null; renderFamTabs(); renderAcordes(); }
+function setSubfam(s) { subfamActiva = s; renderSubfamTabs(); renderAcordes(); }
+
+function renderSubfamTabs() {
+  const fam = FAMILIAS.find(f => f.id === famActiva);
+  if (!fam || !chordDB) return;
+  const keyDB = notaActiva.replace('#','sharp');
+  const disponibles = (fam.sufijos || []).filter(s => chordDB[keyDB] && chordDB[keyDB][s] && chordDB[keyDB][s].length);
+  const c = document.getElementById('subfam-tabs');
+  c.innerHTML = disponibles.map(s =>
+    `<button class="btn-fam${subfamActiva===s?' active':''}" style="${subfamActiva===s?'background:'+getFamColor()+';color:white;border-color:transparent':''}" onclick="setSubfam('${s}')">${s}</button>`
+  ).join('');
+}
+
+function getFamColor() {
+  return (FAMILIAS.find(f=>f.id===famActiva)||{}).color || '#557799';
+}
+
+// ─── RENDER ACORDES ───────────────────────────────────────
 function renderAcordes() {
-  const grid = document.getElementById("acordes-grid");
-  const raizKey = currentRaiz;
-  const chords = GUITAR.chords?.[raizKey]?.[currentFamilia] || [];
-  
-  if(chords.length === 0) {
-    grid.innerHTML = `<div style="color:#aaa;font-style:italic;padding:20px">No hay acordes disponibles para esta combinación.</div>`;
-    return;
-  }
+  if (!chordDB) return;
+  const fam = FAMILIAS.find(f => f.id === famActiva);
+  if (!fam) return;
+  const keyDB = notaActiva.replace('#','sharp');
+  const chords = chordDB[keyDB] || {};
+  const sufijos = subfamActiva ? [subfamActiva] : fam.sufijos;
 
-  const raizNota = currentRaiz.replace("sharp","#");
-  const nombre = raizNota + (currentFamilia==="major"?"":currentFamilia==="minor"?"m":currentFamilia);
+  renderSubfamTabs();
 
-  grid.innerHTML = chords.map((pos,i) =>
-    `<div class="acorde-card" onclick="abrirAcorde('${raizKey}','${currentFamilia}',${i})">
+  const grid = document.getElementById('acordes-grid');
+  let html = '';
+  for (const suf of sufijos) {
+    if (!chords[suf] || !chords[suf].length) continue;
+    const nombre = notaActiva + (suf === 'major' ? '' : suf === 'minor' ? 'm' : suf);
+    const formula = FORMULA_MAP[suf] || suf;
+    const pos = chords[suf][0];
+    html += `<div class="acorde-card" onclick="abrirModal('${keyDB}','${suf}',0)">
       <div class="acorde-nombre">${nombre}</div>
-      <div class="acorde-posiciones">pos. ${i+1} · traste ${pos.baseFret}</div>
-    </div>`
-  ).join("");
-}
-
-function selRaiz(r) {
-  currentRaiz = r;
-  document.querySelectorAll(".raiz-btn").forEach(el => el.classList.toggle("active", el.textContent===r.replace("sharp","#")));
-  renderAcordes();
-}
-
-function selFamilia(f) {
-  currentFamilia = f;
-  renderFamilias();
-  renderAcordes();
-}
-
-// ── Modal diagrama ────────────────────────────────────────
-function abrirAcorde(raiz, sufijo, posIdx) {
-  const chords = GUITAR.chords?.[raiz]?.[sufijo] || [];
-  currentAcordes = chords;
-  currentPosIdx = posIdx;
-  const raizNota = raiz.replace("sharp","#");
-  const nombre = raizNota + (sufijo==="major"?"":sufijo==="minor"?"m":sufijo);
-  document.getElementById("modal-titulo").textContent = nombre;
-  renderDiagrama();
-  document.getElementById("modal").style.display = "flex";
-}
-
-function cerrarModal(e) {
-  if(!e || e.target===document.getElementById("modal")) {
-    document.getElementById("modal").style.display = "none";
+      <div class="acorde-formula">${formula}</div>
+      <div class="diagrama-wrap">${diagramaSVG(pos, notaActiva, suf, 'intervalos', 52)}</div>
+    </div>`;
   }
+  grid.innerHTML = html || '<p style="color:#aaa;padding:20px">No hay acordes disponibles para esta combinación.</p>';
+}
+
+// ─── DIAGRAMA SVG ─────────────────────────────────────────
+function diagramaSVG(pos, notaRaiz, suf, modo, sz) {
+  if (!pos) return '';
+  const { frets, fingers, baseFret, barres = [] } = pos;
+  const midi = pos.midi || [];
+  const nStrings = 6, nFrets = 4;
+  const cw = sz, rh = sz * 0.42, pad = sz * 0.55, topPad = sz * 0.55;
+  const W = pad + (nStrings-1)*cw + pad + sz*0.4;
+  const H = topPad + nFrets*rh + pad;
+
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // Fondo
+  svg += `<rect width="${W}" height="${H}" fill="white" rx="4"/>`;
+
+  // Número de traste base (si > 1)
+  const bf = baseFret || 1;
+  if (bf > 1) {
+    svg += `<text x="${W - sz*0.15}" y="${topPad + rh*0.7}" font-size="${sz*0.28}" fill="#333" font-weight="700" text-anchor="end">${bf}fr</text>`;
+  } else {
+    // Cejuela
+    svg += `<rect x="${pad - sz*0.08}" y="${topPad - rh*0.12}" width="${(nStrings-1)*cw + sz*0.16}" height="${rh*0.2}" fill="#111" rx="2"/>`;
+  }
+
+  // Trastes (horizontales)
+  for (let f = 0; f <= nFrets; f++) {
+    const y = topPad + f*rh;
+    svg += `<line x1="${pad}" y1="${y}" x2="${pad+(nStrings-1)*cw}" y2="${y}" stroke="#ccc" stroke-width="${f===0?2:1}"/>`;
+    if (f > 0) svg += `<text x="${pad+(nStrings-1)*cw+sz*0.18}" y="${y - rh*0.3}" font-size="${sz*0.22}" fill="#bbb" text-anchor="start">${bf+f-1}</text>`;
+  }
+
+  // Cuerdas (verticales)
+  for (let s = 0; s < nStrings; s++) {
+    svg += `<line x1="${pad+s*cw}" y1="${topPad}" x2="${pad+s*cw}" y2="${topPad+nFrets*rh}" stroke="#999" stroke-width="1.2"/>`;
+  }
+
+  // Barras
+  for (const b of barres) {
+    const y = topPad + (b.fret - 0.5)*rh;
+    const x1 = pad + (6 - b.toSting)*cw;
+    const x2 = pad + (6 - b.fromString)*cw;
+    svg += `<rect x="${x1}" y="${y - rh*0.35}" width="${x2-x1}" height="${rh*0.7}" fill="#ddd" stroke="#666" stroke-width="1" rx="${rh*0.3}"/>`;
+  }
+
+  // Marcadores muda / aire encima
+  const cx0 = s => pad + (5-s)*cw;
+  for (let s = 0; s < nStrings; s++) {
+    const f = frets[s];
+    if (f === -1) {
+      svg += `<text x="${cx0(s)}" y="${topPad - sz*0.18}" font-size="${sz*0.28}" fill="#888" text-anchor="middle" font-weight="700">×</text>`;
+    } else if (f === 0) {
+      svg += `<circle cx="${cx0(s)}" cy="${topPad - sz*0.2}" r="${sz*0.13}" fill="none" stroke="#888" stroke-width="1.5"/>`;
+    }
+  }
+
+  // Dedos / notas
+  for (let s = 0; s < nStrings; s++) {
+    const f = frets[s];
+    if (f <= 0) continue;
+    const cx = cx0(s);
+    const cy = topPad + (f - 0.5)*rh;
+    const r = sz * 0.27;
+
+    // Calcular intervalo
+    const midiStr = MIDI_BASE[s];
+    const midiNota = midiStr + (bf - 1 + f);
+    const raizIdx = NOTAS.indexOf(notaRaiz.replace('b','').replace('sharp','#'));
+    const intervIdx = ((midiNota - (raizIdx >= 0 ? raizIdx : 0)) % 12 + 12) % 12;
+    const itv = ITVS[intervIdx] || '?';
+    const notaNombre = NOTAS[midiNota % 12] || '?';
+    const dedo = fingers[s] || '';
+
+    let label = modo === 'intervalos' ? itv : modo === 'notas' ? notaNombre : String(dedo);
+    const isTonica = intervIdx === 0;
+
+    svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${isTonica?'#557799':'white'}" stroke="${isTonica?'#335577':'#cc4444'}" stroke-width="1.5"/>`;
+    svg += `<text x="${cx}" y="${cy + sz*0.09}" font-size="${label.length > 2 ? sz*0.16 : sz*0.2}" fill="${isTonica?'white':'#222'}" text-anchor="middle" font-weight="700">${label}</text>`;
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+// ─── MODAL ────────────────────────────────────────────────
+function abrirModal(keyDB, suf, posIdx) {
+  if (!chordDB || !chordDB[keyDB] || !chordDB[keyDB][suf]) return;
+  modalAcorde = { keyDB, suf, posIdx };
+  renderModal();
+  document.getElementById('modal').classList.add('open');
+}
+
+function cerrarModal() {
+  document.getElementById('modal').classList.remove('open');
 }
 
 function navPos(dir) {
-  currentPosIdx = (currentPosIdx + dir + currentAcordes.length) % currentAcordes.length;
-  renderDiagrama();
+  if (!modalAcorde || !chordDB) return;
+  const { keyDB, suf } = modalAcorde;
+  const total = chordDB[keyDB][suf].length;
+  modalAcorde.posIdx = (modalAcorde.posIdx + dir + total) % total;
+  renderModal();
 }
 
-function setModo(modo, el) {
-  currentModo = modo;
-  document.querySelectorAll(".modo-btn").forEach(b => b.classList.remove("active"));
-  el.classList.add("active");
-  renderDiagrama();
+function setModo(m) {
+  modoCirculo = m;
+  document.querySelectorAll('.btn-modo').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().startsWith(m.substring(0,3))));
+  if (modalAcorde) renderModal();
 }
 
-function renderDiagrama() {
-  const pos = currentAcordes[currentPosIdx];
-  if(!pos) return;
+function renderModal() {
+  const { keyDB, suf, posIdx } = modalAcorde;
+  const nota = keyDB.replace('sharp','#');
+  const nombre = nota + (suf === 'major' ? '' : suf === 'minor' ? 'm' : suf);
+  const poses = chordDB[keyDB][suf];
+  const pos = poses[posIdx];
 
-  document.getElementById("modal-pos-info").textContent = `Posición ${currentPosIdx+1} de ${currentAcordes.length} · Traste ${pos.baseFret}`;
+  document.getElementById('m-titulo').textContent = nombre;
+  document.getElementById('m-formula').textContent = 'Fórmula: ' + (FORMULA_MAP[suf] || suf);
+  document.getElementById('m-pos').textContent = `pos ${posIdx+1} / ${poses.length}`;
+  document.getElementById('m-diagrama').innerHTML = diagramaSVG(pos, nota, suf, modoCirculo, 70);
+  document.getElementById('m-desc').textContent = DESCRIPCIONES[suf] || '';
 
-  const raizNota = currentRaiz.replace("sharp","#");
-  const frets = pos.frets; // 6 valores, índice 0=cuerda 6 (Mi grave)
-  const fingers = pos.fingers || [0,0,0,0,0,0];
-  const barres = pos.barres || [];
-  const baseFret = pos.baseFret || 1;
+  // Estado cuerdas
+  const statusLabels = (pos.frets||[]).map(f => f === -1 ? '×' : f === 0 ? '○' : '').reverse();
+  document.getElementById('m-cuerdas-status').innerHTML = statusLabels.map(l => `<span style="width:12%">${l}</span>`).join('');
+}
+
+// ─── AUDIO (Web Audio API) ────────────────────────────────
+let audioCtx = null;
+function playAcorde() {
+  if (!modalAcorde || !chordDB) return;
+  const { keyDB, suf, posIdx } = modalAcorde;
+  const pos = chordDB[keyDB][suf][posIdx];
   const midi = pos.midi || [];
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-  // SVG
-  const x0=40, y0=50, cw=28, rh=22, nt=4;
-  const W=x0*2+cw*5+30, H=y0+rh*nt+40;
-  const cx = s => x0 + (5-s)*cw; // s=0..5, 0=Mi grave izq
-
-  // Calcular notas y etiquetas
-  const labels = frets.map((f,i) => {
-    if(f===-1) return null;
-    const nota = notaEnCuerda(i, f===0?0:baseFret-1+f);
-    const itv = intervalo(raizNota, nota);
-    if(currentModo==="notas") return nota;
-    if(currentModo==="intervalos") return itv||"?";
-    if(currentModo==="dedos") return fingers[i]>0?String(fingers[i]):"";
-    return itv;
-  });
-
-  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-
-  // Cejuela o número de traste
-  if(baseFret===1) {
-    svg += `<rect x="${x0-2}" y="${y0-6}" width="${cw*5+4}" height="6" rx="2" fill="#8B5E3C"/>`;
-  } else {
-    svg += `<text x="${x0-8}" y="${y0+rh*0.7}" text-anchor="end" style="font-size:11px;fill:#cc3333;font-weight:900">${baseFret}</text>`;
-  }
-
-  // Fondo
-  svg += `<rect x="${x0}" y="${y0}" width="${cw*5}" height="${rh*nt}" fill="#f5e6c8" rx="1"/>`;
-
-  // Trastes
-  for(let f=0;f<=nt;f++) {
-    svg += `<line x1="${x0}" y1="${y0+f*rh}" x2="${x0+cw*5}" y2="${y0+f*rh}" stroke="#c8a87a" stroke-width="${f===0?1.5:0.8}"/>`;
-  }
-
-  // Cuerdas
-  const GROSORES = [3,2.5,2,1.5,1,0.8];
-  for(let s=0;s<6;s++) {
-    svg += `<line x1="${cx(s)}" y1="${y0}" x2="${cx(s)}" y2="${y0+nt*rh}" stroke="#999" stroke-width="${GROSORES[s]}"/>`;
-  }
-
-  // Números de traste
-  for(let f=1;f<=nt;f++) {
-    svg += `<text x="${x0+cw*5+14}" y="${y0+(f-0.5)*rh+4}" text-anchor="start" style="font-size:9px;fill:#888">${baseFret+f-1}</text>`;
-  }
-
-  // X y O
-  frets.forEach((f,i) => {
-    if(f===-1) svg += `<text x="${cx(i)}" y="${y0-10}" text-anchor="middle" style="font-size:13px;fill:#cc3333;font-weight:900">×</text>`;
-    else if(f===0) {
-      svg += `<circle cx="${cx(i)}" cy="${y0-10}" r="6" fill="white" stroke="#2a882a" stroke-width="1.5"/>`;
-      if(currentModo!=="dedos") {
-        const nota = notaEnCuerda(i,0);
-        const lbl = currentModo==="notas"?nota:intervalo(raizNota,nota);
-        svg += `<text x="${cx(i)}" y="${y0-7}" text-anchor="middle" style="font-size:${lbl.length>=2?6:8}px;fill:#2a882a;font-weight:900">${lbl}</text>`;
-      }
-    }
-  });
-
-  // Barres
-  barres.forEach(b => {
-    const fy = y0+(b-1)*rh+rh/2;
-    const x1 = cx(5); const x2 = cx(0);
-    svg += `<rect x="${x1-8}" y="${fy-7}" width="${x2-x1+16}" height="14" rx="7" fill="#e0e0e0" stroke="#666" stroke-width="1.5"/>`;
-  });
-
-  // Círculos de dedos
-  frets.forEach((f,i) => {
-    if(f<=0) return;
-    const fy = y0+(f-0.5)*rh;
-    const lbl = labels[i]||"";
-    const fs = lbl.length>=2?7:9;
-    svg += `<circle cx="${cx(i)}" cy="${fy}" r="9" fill="white" stroke="#cc3333" stroke-width="1.5"/>`;
-    svg += `<text x="${cx(i)}" y="${fy+fs*0.38}" text-anchor="middle" style="font-size:${fs}px;fill:#cc3333;font-weight:900">${lbl}</text>`;
-  });
-
-  // Notas debajo
-  frets.forEach((f,i) => {
-    const nota = f===-1?"":notaEnCuerda(i,f===0?0:baseFret-1+f);
-    svg += `<text x="${cx(i)}" y="${H-4}" text-anchor="middle" style="font-size:7px;fill:${f===-1?'#ccc':'#cc3333'};font-weight:700">${nota}</text>`;
-  });
-
-  svg += `</svg>`;
-  document.getElementById("diagrama-svg").outerHTML = `<div class="diagrama-wrap">${svg}</div>`;
-  document.querySelector(".diagrama-wrap").id = "diagrama-svg-wrap";
-
-  // Fórmula MIDI
-  const midiNotas = midi.filter(m=>m>0);
-  document.getElementById("modal-formula").textContent = midiNotas.length ? `MIDI: ${midiNotas.join(", ")}` : "";
-}
-
-// ── Audio ─────────────────────────────────────────────────
-function tocarAcorde() {
-  const pos = currentAcordes[currentPosIdx];
-  if(!pos || !pos.midi) return;
-  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  
-  const notas = pos.midi.filter(m=>m>0);
-  notas.forEach((midi,i) => {
+  midi.forEach((note, i) => {
+    if (note === 0) return;
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.frequency.value = 440 * Math.pow(2, (midi-69)/12);
-    osc.type = "triangle";
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime + i*0.06);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.06 + 1.5);
-    osc.start(audioCtx.currentTime + i*0.06);
-    osc.stop(audioCtx.currentTime + i*0.06 + 1.5);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const freq = 440 * Math.pow(2, (note - 69) / 12);
+    osc.frequency.value = freq;
+    osc.type = 'triangle';
+    const t = audioCtx.currentTime + i * 0.06;
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.18, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
+    osc.start(t); osc.stop(t + 1.8);
   });
 }
 
-// ── Buscador ──────────────────────────────────────────────
-const COLORES = { INTRO:"sec-INTRO",ESTROFA:"sec-ESTROFA",VERSO:"sec-ESTROFA",VERSE:"sec-ESTROFA",ESTRIBILLO:"sec-ESTRIBILLO",CHORUS:"sec-ESTRIBILLO",PUENTE:"sec-PUENTE",BRIDGE:"sec-PUENTE",OUTRO:"sec-OUTRO" };
-
-document.getElementById("query").addEventListener("keydown", e => { if(e.key==="Enter") buscar(); });
-
+// ─── BUSCADOR ─────────────────────────────────────────────
 async function buscar() {
-  const query = document.getElementById("query").value.trim();
-  if(!query) return;
-  const btn = document.getElementById("btn-buscar");
-  const msg = document.getElementById("msg");
-  const res = document.getElementById("resultado");
-  btn.disabled=true; btn.textContent="Buscando...";
-  msg.style.display="block"; msg.className="msg loading"; msg.textContent="Buscando con IA...";
-  res.style.display="none";
+  const q = document.getElementById('inp').value.trim();
+  if (!q) return;
+  const st = document.getElementById('status');
+  const res = document.getElementById('resultado');
+  st.textContent = '⏳ Buscando...';
+  res.innerHTML = '';
   try {
-    const r = await fetch("/api/buscar", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({query}) });
-    const txt = await r.text();
-    let data;
-    try { data=JSON.parse(txt); } catch(e) { throw new Error("Respuesta inválida"); }
-    if(data.error) throw new Error(data.error);
-    if(!data.titulo||!data.secciones) throw new Error("Estructura inválida");
-    mostrarCancion(data);
-    msg.style.display="none";
+    const r = await fetch('/api/buscar', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({query:q}) });
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+    st.textContent = '';
+    renderCancion(data);
   } catch(e) {
-    msg.className="msg error"; msg.textContent=e.message;
+    st.textContent = ''; res.innerHTML = `<p style="color:red;padding:20px">No se pudo cargar: ${e.message}</p>`;
   }
-  btn.disabled=false; btn.textContent="Buscar";
 }
 
-function mostrarCancion(data) {
+function renderCancion(d) {
+  const secColor = s => {
+    const t = (s||'').toLowerCase();
+    if (t.includes('estrib')) return 'sec-estribillo';
+    if (t.includes('puente')) return 'sec-puente';
+    if (t.includes('intro')) return 'sec-intro';
+    if (t.includes('outro')) return 'sec-outro';
+    return 'sec-estrofa';
+  };
   let html = `<div class="cancion">
-    <div class="cancion-header">
-      <div><div class="cancion-titulo">${data.titulo}</div><div class="cancion-artista">${data.artista||""}</div></div>
-      <div class="cancion-meta">${data.compas||"4/4"}<br>${data.genero||""}</div>
-    </div>`;
-  for(const sec of data.secciones) {
-    const clase = COLORES[sec.label?.toUpperCase()]||"sec-INTRO";
-    html += `<div class="seccion ${clase}"><div class="seccion-label">${sec.label}</div><div class="compases">`;
-    for(const c of sec.compases) {
-      const acordes = (c.beats||[]).map(b=>b.chord||"").filter(Boolean).join(" / ");
-      html += `<div class="compas"><div class="compas-acorde">${acordes}</div>${c.lyric?`<div class="compas-lyric">${c.lyric}</div>`:""}</div>`;
+    <div class="cancion-titulo">${d.titulo||''}</div>
+    <div class="cancion-meta"><span>${d.artista||''}</span><span>${d.compas||'4/4'}</span><span>${d.genero||''}</span></div>`;
+  for (const sec of (d.secciones||[])) {
+    html += `<div class="seccion ${secColor(sec.nombre)}">
+      <div class="seccion-label">${sec.nombre||''}</div>
+      <div class="compases">`;
+    for (const comp of (sec.compases||[])) {
+      const acordes = Array.isArray(comp.acordes) ? comp.acordes : [comp.acordes||comp.acorde||''];
+      const letra = comp.letra || '';
+      html += `<div class="compas"><div class="compas-acorde">${acordes.join(' / ')}</div><div class="compas-letra">${letra}</div></div>`;
     }
     html += `</div></div>`;
   }
-  html += `</div>`;
-  const res = document.getElementById("resultado");
-  res.innerHTML = html;
-  res.style.display = "block";
+  html += '</div>';
+  document.getElementById('resultado').innerHTML = html;
 }
 </script>
 </body>
