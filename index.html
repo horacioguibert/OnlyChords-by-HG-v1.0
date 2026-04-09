@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnlyChords — Buscador</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 4px;
+    }
+
+    .subtitulo {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 40px;
+    }
+
+    .buscador {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input:focus { border-color: #557799; }
+
+    button {
+      padding: 12px 24px;
+      background: #557799;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover { background: #3d5a77; }
+    button:disabled { background: #aaa; cursor: wait; }
+
+    .error {
+      color: #cc3333;
+      font-size: 13px;
+      margin-bottom: 16px;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .resultado {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    .cancion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .cancion-titulo {
+      font-size: 24px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .cancion-artista {
+      font-size: 14px;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    .cancion-meta {
+      font-size: 12px;
+      color: #aaa;
+      text-align: right;
+    }
+
+    .seccion {
+      margin-bottom: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid #ddd;
+    }
+
+    .seccion-label {
+      padding: 4px 12px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .seccion-intro    .seccion-label { background: #eee; color: #888; }
+    .seccion-estrofa  .seccion-label { background: #ddeedd; color: #557755; }
+    .seccion-estribillo .seccion-label { background: #f2e0e0; color: #996666; }
+    .seccion-puente   .seccion-label { background: #dceaf4; color: #557799; }
+    .seccion-outro    .seccion-label { background: #eee; color: #888; }
+
+    .compases {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px;
+      gap: 6px;
+    }
+
+    .compas {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 6px 10px;
+      min-width: 80px;
+    }
+
+    .compas-acorde {
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .compas-lyric {
+      font-size: 10px;
+      color: #884848;
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .loading {
+      color: #557799;
+      font-size: 13px;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎸 OnlyChords</h1>
+  <div class="subtitulo">Buscá cualquier canción y obtené sus acordes</div>
+
+  <div class="buscador">
+    <input type="text" id="query" placeholder='Ej: "Yesterday Beatles" o "La Bamba"' />
+    <button id="btn" onclick="buscar()">Buscar</button>
+  </div>
+
+  <div id="loading" class="loading" style="display:none">Buscando con IA...</div>
+  <div id="error" class="error" style="display:none"></div>
+
+  <div id="resultado" class="resultado"></div>
+
+  <script>
+    const input = document.getElementById('query');
+    const btn = document.getElementById('btn');
+    const loadingEl = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+    const resultadoEl = document.getElementById('resultado');
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') buscar();
+    });
+
+    const COLORES = {
+      INTRO: 'seccion-intro',
+      ESTROFA: 'seccion-estrofa',
+      VERSO: 'seccion-estrofa',
+      VERSE: 'seccion-estrofa',
+      ESTRIBILLO: 'seccion-estribillo',
+      CHORUS: 'seccion-estribillo',
+      PUENTE: 'seccion-puente',
+      BRIDGE: 'seccion-puente',
+      OUTRO: 'seccion-outro',
+    };
+
+    async function buscar() {
+      const query = input.value.trim();
+      if (!query) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Buscando...';
+      loadingEl.style.display = 'block';
+      errorEl.style.display = 'none';
+      resultadoEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/buscar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+        });
+
+        const txt = await res.text();
+        let data;
+        try {
+          data = JSON.parse(txt);
+        } catch(e) {
+          throw new Error('Respuesta inválida: ' + txt.substring(0, 150));
+        }
+
+        if (data.error) throw new Error(data.error);
+        if (!data.titulo || !data.secciones) throw new Error('Estructura inválida: ' + JSON.stringify(Object.keys(data)));
+
+        mostrar(data);
+
+      } catch(e) {
+        errorEl.textContent = e.message;
+        errorEl.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Buscar';
+      loadingEl.style.display = 'none';
+    }
+
+    function mostrar(data) {
+      const color = COLORES[data.genero?.toUpperCase()] || '';
+
+      let html = `
+        <div class="cancion-header">
+          <div>
+            <div class="cancion-titulo">${data.titulo}</div>
+            <div class="cancion-artista">${data.artista || ''}</div>
+          </div>
+          <div class="cancion-meta">
+            ${data.compas || '4/4'}<br>
+            ${data.genero || ''}
+          </div>
+        </div>
+      `;
+
+      for (const sec of data.secciones) {
+        const label = sec.label || 'SECCIÓN';
+        const clase = COLORES[label.toUpperCase()] || 'seccion-intro';
+
+        html += `<div class="seccion ${clase}">`;
+        html += `<div class="seccion-label">${label}</div>`;
+        html += `<div class="compases">`;
+
+        for (const compas of sec.compases) {
+          const beats = compas.beats || [];
+          const acordes = beats.map(b => b.chord || '').filter(Boolean).join(' / ');
+          const lyric = compas.lyric || '';
+          html += `
+            <div class="compas">
+              <div class="compas-acorde">${acordes}</div>
+              ${lyric ? `<div class="compas-lyric">${lyric}</div>` : ''}
+            </div>
+          `;
+        }
+
+        html += `</div></div>`;
+      }
+
+      resultadoEl.innerHTML = html;
+      resultadoEl.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
