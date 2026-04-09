@@ -14,13 +14,14 @@ body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
 .nav-tab { padding:6px 16px; border-radius:20px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:14px; font-weight:600; color:#555; transition:all .2s; }
 .nav-tab.active { background:#557799; border-color:#557799; color:white; }
 
+/* BUSCADOR */
 .search-section { padding:30px 20px; max-width:800px; margin:0 auto; }
 .search-box { display:flex; gap:10px; margin-bottom:20px; }
 .search-box input { flex:1; padding:12px 18px; border:2px solid #ddd; border-radius:8px; font-size:16px; outline:none; }
 .search-box input:focus { border-color:#557799; }
 .btn-buscar { padding:12px 24px; background:#557799; color:white; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; }
 .btn-buscar:hover { background:#446688; }
-.status { text-align:center; color:#888; font-size:14px; margin:10px 0; }
+.status { text-align:center; color:#888; font-size:14px; margin:10px 0; min-height:20px; }
 
 .cancion { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
 .cancion-titulo { font-size:26px; font-weight:900; margin-bottom:4px; }
@@ -42,46 +43,49 @@ body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
 .sec-outro .seccion-label { background:#f0f0f0; color:#555; }
 .sec-outro .compases { background:#fafafa; }
 
+/* BIBLIOTECA */
 .bib-section { padding:20px; max-width:1100px; margin:0 auto; }
 .bib-controles { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; align-items:center; }
 .bib-nota-btns { display:flex; gap:6px; flex-wrap:wrap; }
-.btn-nota { padding:6px 12px; border-radius:6px; border:1.5px solid #ddd; background:white; cursor:pointer; font-weight:700; font-size:13px; color:#333; transition:all .2s; }
+.btn-nota { padding:6px 12px; border-radius:6px; border:1.5px solid #ddd; background:white; cursor:pointer; font-weight:700; font-size:13px; color:#333; }
 .btn-nota.active { background:#557799; border-color:#557799; color:white; }
-.familia-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.familia-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.subfam-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; min-height:30px; }
 .btn-fam { padding:5px 14px; border-radius:16px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:13px; font-weight:600; color:#555; transition:all .2s; }
 .btn-fam.active { color:white; border-color:transparent; }
-.btn-fam[data-fam="mayor"].active { background:#2277bb; }
-.btn-fam[data-fam="menor"].active { background:#228855; }
+.btn-fam[data-fam="mayor"].active  { background:#2277bb; }
+.btn-fam[data-fam="menor"].active  { background:#228855; }
 .btn-fam[data-fam="dominante"].active { background:#cc4433; }
 .btn-fam[data-fam="disminuido"].active { background:#aa8800; }
-.btn-fam[data-fam="semidim"].active { background:#cc6600; }
+.btn-fam[data-fam="semidim"].active   { background:#cc6600; }
 .btn-fam[data-fam="aumentado"].active { background:#7744aa; }
-.btn-fam[data-fam="power"].active { background:#333; }
+.btn-fam[data-fam="power"].active  { background:#333; }
 
 .acordes-grid { display:flex; flex-wrap:wrap; gap:14px; }
-.acorde-card { background:white; border-radius:10px; padding:12px 14px; box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; transition:transform .15s, box-shadow .15s; min-width:110px; text-align:center; }
-.acorde-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.14); }
-.acorde-nombre { font-size:18px; font-weight:900; color:#111; margin-bottom:8px; }
+.acorde-card { background:white; border-radius:10px; padding:12px 14px; box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; transition:transform .15s,box-shadow .15s; min-width:110px; text-align:center; }
+.acorde-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.15); }
+.acorde-nombre { font-size:18px; font-weight:900; color:#111; margin-bottom:6px; }
 .acorde-formula { font-size:10px; color:#888; margin-bottom:8px; }
 .diagrama-wrap { display:flex; justify-content:center; }
 
+/* MODAL */
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
-.modal { background:white; border-radius:14px; padding:24px; max-width:420px; width:90%; box-shadow:0 8px 40px rgba(0,0,0,.2); position:relative; max-height:90vh; overflow-y:auto; }
-.modal-close { position:absolute; top:12px; right:16px; font-size:22px; cursor:pointer; color:#888; border:none; background:none; }
-.modal-titulo { font-size:22px; font-weight:900; margin-bottom:4px; }
+.modal { background:white; border-radius:14px; padding:24px; max-width:400px; width:92%; box-shadow:0 8px 40px rgba(0,0,0,.22); position:relative; max-height:92vh; overflow-y:auto; }
+.modal-close { position:absolute; top:12px; right:16px; font-size:22px; cursor:pointer; color:#888; border:none; background:none; line-height:1; }
+.modal-titulo { font-size:22px; font-weight:900; margin-bottom:2px; }
 .modal-formula { font-size:12px; color:#888; margin-bottom:12px; }
-.modal-nav { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:14px; }
-.btn-nav { background:#f0f0f0; border:none; border-radius:6px; padding:6px 14px; cursor:pointer; font-size:18px; font-weight:700; }
-.btn-nav:hover { background:#e0e0e0; }
-.modal-pos { font-size:13px; color:#666; }
-.modo-btns { display:flex; gap:6px; justify-content:center; margin-bottom:14px; }
+.modo-btns { display:flex; gap:6px; justify-content:center; margin-bottom:12px; }
 .btn-modo { padding:4px 12px; border-radius:12px; border:1.5px solid #ddd; background:white; cursor:pointer; font-size:12px; font-weight:600; color:#555; }
 .btn-modo.active { background:#557799; border-color:#557799; color:white; }
-.modal-desc { font-size:12px; color:#555; margin-top:12px; line-height:1.6; border-top:1px solid #eee; padding-top:10px; }
-.btn-play { background:#557799; color:white; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-size:14px; font-weight:700; width:100%; margin-top:10px; }
+.modal-nav { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:10px; }
+.btn-nav { background:#f0f0f0; border:none; border-radius:6px; padding:6px 14px; cursor:pointer; font-size:18px; font-weight:700; }
+.btn-nav:hover { background:#e0e0e0; }
+.modal-pos { font-size:13px; color:#666; min-width:60px; text-align:center; }
+.cuerda-status { display:flex; justify-content:space-around; margin-bottom:4px; font-size:11px; font-weight:700; color:#888; padding:0 8px; }
+.btn-play { background:#557799; color:white; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-size:14px; font-weight:700; width:100%; margin-top:12px; }
 .btn-play:hover { background:#446688; }
-.cuerda-status { display:flex; justify-content:space-around; margin-bottom:4px; font-size:11px; font-weight:700; color:#888; }
+.modal-desc { font-size:12px; color:#555; margin-top:10px; line-height:1.6; border-top:1px solid #eee; padding-top:10px; }
 
 .hidden { display:none; }
 </style>
@@ -89,32 +93,36 @@ body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
 <body>
 
 <div class="header">
-  <div class="logo">🎸 <span>OnlyChords</span></div>
+  <div class="logo">🎸 OnlyChords</div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="mostrarTab('buscar')">🔍 Buscar</button>
     <button class="nav-tab" onclick="mostrarTab('biblioteca')">📚 Biblioteca</button>
   </div>
 </div>
 
+<!-- BUSCAR -->
 <div id="tab-buscar" class="search-section">
   <div class="search-box">
-    <input id="inp" type="text" placeholder="Ej: Yesterday Beatles, Hotel California..." onkeydown="if(event.key==='Enter')buscar()">
+    <input id="inp" type="text" placeholder="Ej: Yesterday Beatles, Hotel California..."
+      onkeydown="if(event.key==='Enter')buscar()">
     <button class="btn-buscar" onclick="buscar()">Buscar</button>
   </div>
   <div id="status" class="status"></div>
   <div id="resultado"></div>
 </div>
 
+<!-- BIBLIOTECA -->
 <div id="tab-biblioteca" class="bib-section hidden">
   <div class="bib-controles">
-    <strong style="font-size:13px;color:#555;">Nota raíz:</strong>
+    <strong style="font-size:13px;color:#555">Nota raíz:</strong>
     <div class="bib-nota-btns" id="nota-btns"></div>
   </div>
   <div class="familia-tabs" id="fam-tabs"></div>
-  <div id="subfam-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"></div>
+  <div class="subfam-tabs" id="subfam-tabs"></div>
   <div class="acordes-grid" id="acordes-grid"></div>
 </div>
 
+<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="cerrarModal()">✕</button>
@@ -130,7 +138,7 @@ body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
       <span class="modal-pos" id="m-pos"></span>
       <button class="btn-nav" onclick="navPos(1)">▶</button>
     </div>
-    <div class="cuerda-status" id="m-cuerdas-status"></div>
+    <div class="cuerda-status" id="m-cuerdas"></div>
     <div class="diagrama-wrap" id="m-diagrama"></div>
     <button class="btn-play" onclick="playAcorde()">▶ Escuchar acorde</button>
     <div class="modal-desc" id="m-desc"></div>
@@ -138,68 +146,70 @@ body { font-family:Arial,sans-serif; background:#f5f5f5; min-height:100vh; }
 </div>
 
 <script>
-const NOTAS = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+// ── CONSTANTES ────────────────────────────────────────────
+const NOTAS   = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
 const MIDI_BASE = [40,45,50,55,59,64]; // E2 A2 D3 G3 B3 E4
-const ITVS = ['T','b2','2','b3','3M','4','b5','5','b6','6','7m','7M'];
+const ITVS    = ['T','b2','2','b3','3M','4','b5','5','b6','6','7m','7M'];
 
 const FAMILIAS = [
-  { id:'mayor', label:'Mayor 🔵', color:'#2277bb',
+  { id:'mayor',      label:'Mayor 🔵',     color:'#2277bb',
     sufijos:['major','add9','add11','sus2','sus4','sus2sus4','6','69','maj7','maj9','maj11','maj13','maj7#5','maj7sus2'] },
-  { id:'menor', label:'Menor 🟢', color:'#228855',
+  { id:'menor',      label:'Menor 🟢',     color:'#228855',
     sufijos:['minor','madd9','msus2','m6','m69','m7','m9','m11','mmaj7','mmaj7b5','mmaj9','mmaj11'] },
-  { id:'dominante', label:'Dominante 🔴', color:'#cc4433',
+  { id:'dominante',  label:'Dominante 🔴', color:'#cc4433',
     sufijos:['7','7sus4','alt','9','9b5','9#11','9sus4','7b5','7b9','7#9','11','13'] },
-  { id:'disminuido', label:'Disminuido 🟡', color:'#aa8800',
+  { id:'disminuido', label:'Disminuido 🟡',color:'#aa8800',
     sufijos:['dim','dim7'] },
-  { id:'semidim', label:'Semidism. 🟠', color:'#cc6600',
+  { id:'semidim',    label:'Semidism. 🟠', color:'#cc6600',
     sufijos:['m7b5','maj7b5'] },
-  { id:'aumentado', label:'Aumentado 🟣', color:'#7744aa',
+  { id:'aumentado',  label:'Aumentado 🟣', color:'#7744aa',
     sufijos:['aug','aug7','aug9'] },
-  { id:'power', label:'Power 🎸', color:'#333',
+  { id:'power',      label:'Power 🎸',     color:'#333',
     sufijos:['5'] }
 ];
 
 const FORMULA_MAP = {
-  'major':'1-3M-5','minor':'1-3m-5','7':'1-3M-5-7m','m7':'1-3m-5-7m',
-  'maj7':'1-3M-5-7M','m7b5':'1-3m-b5-7m','sus2':'1-2-5','sus4':'1-4-5',
-  'dim':'1-3m-b5','dim7':'1-3m-b5-6','aug':'1-3M-#5','5':'1-5',
-  '6':'1-3M-5-6','m6':'1-3m-5-6','9':'1-3M-5-7m-9','m9':'1-3m-5-7m-9',
-  'maj9':'1-3M-5-7M-9','add9':'1-3M-5-9','7b9':'1-3M-5-7m-b9',
-  '7#9':'1-3M-5-7m-#9','13':'1-3M-5-7m-9-13','7sus4':'1-4-5-7m',
-  'aug7':'1-3M-#5-7m','mmaj7':'1-3m-5-7M','69':'1-3M-5-6-9',
-  'm11':'1-3m-5-7m-9-11','11':'1-3M-5-7m-9-11'
+  major:'1-3M-5', minor:'1-3m-5', '7':'1-3M-5-7m', m7:'1-3m-5-7m',
+  maj7:'1-3M-5-7M', 'm7b5':'1-3m-b5-7m', sus2:'1-2-5', sus4:'1-4-5',
+  dim:'1-3m-b5', dim7:'1-3m-b5-bb7', aug:'1-3M-#5', '5':'1-5',
+  '6':'1-3M-5-6', m6:'1-3m-5-6', '9':'1-3M-5-7m-9', m9:'1-3m-5-7m-9',
+  maj9:'1-3M-5-7M-9', add9:'1-3M-5-9', '7b9':'1-3M-5-7m-b9',
+  '7#9':'1-3M-5-7m-#9', '13':'1-3M-5-7m-9-13', '7sus4':'1-4-5-7m',
+  aug7:'1-3M-#5-7m', mmaj7:'1-3m-5-7M', '69':'1-3M-5-6-9',
+  m11:'1-3m-5-7m-9-11', '11':'1-3M-5-7m-9-11', '7b5':'1-3M-b5-7m'
 };
 
 const DESCRIPCIONES = {
-  'major':'El punto de partida de todo. Tónica, tercera mayor y quinta — la trinidad perfecta.',
-  'minor':'La melancolía hecha acorde. Tercera menor que lo oscurece todo. El favorito del flamenco y el blues.',
-  '7':'Tensión pura. Quiere resolver al mayor. El rey del blues — de BB King a Stevie Ray Vaughan.',
-  'm7':'Oscuro y sofisticado. El ii del jazz. Miles Davis lo usaba como pincel principal.',
-  'maj7':'Soñador y flotante. Huele a Ipanema. El favorito de la bossa nova — João Gilberto lo adoraba.',
-  'dim7':'Simétrico y perturbador. Se repite cada 3 trastes. Django Reinhardt lo dominaba como nadie.',
-  'aug':'Inestable, expansivo. La quinta aumentada crea tensión hacia arriba. Los Beatles lo usaban en momentos dramáticos.',
-  '7#9':'El acorde Hendrix. Purple Haze. Tiene tercera mayor Y menor simultáneamente.',
-  'sus2':'Sin tercera, abierto, moderno. El favorito del pop alternativo de los 90. Sting.',
-  'sus4':'Suspensión clásica que resuelve al mayor. The Edge de U2 construyó su sonido sobre este.',
-  '5':'Solo tónica y quinta. Ni mayor ni menor. El lenguaje universal del rock desde Chuck Berry.',
-  'm7b5':'El semidisminuido del jazz. El ii en tonalidad menor. Bill Evans lo amaba.',
-  'maj9':'Extensión del maj7. Jazz moderno y bossa sofisticada.',
-  '9':'Dominante con novena. El sabor del soul y el R&B.',
-  'add9':'Agrega novena sin séptima. Abierto y colorido. Pop moderno.',
-  '6':'Mayor con sexta — elegante y luminoso. Perfecto para terminar con clase.',
-  'dim':'Tríada disminuida — máxima tensión en tres notas.',
-  'mmaj7':'Oscuro e inquietante. Jazz noir y tango moderno.'
+  major:   'El punto de partida de todo. Tónica, tercera mayor y quinta — la trinidad perfecta.',
+  minor:   'La melancolía hecha acorde. Tercera menor que lo oscurece todo. Favorito del flamenco y el blues.',
+  '7':     'Tensión pura que quiere resolver. El rey del blues — de BB King a Stevie Ray Vaughan.',
+  m7:      'Oscuro y sofisticado. El ii del jazz. Miles Davis lo usaba como pincel principal.',
+  maj7:    'Soñador y flotante. Huele a Ipanema. El favorito de la bossa nova — João Gilberto lo adoraba.',
+  dim7:    'Simétrico y perturbador. Se repite cada 3 trastes. Django Reinhardt lo dominaba como nadie.',
+  aug:     'Inestable, expansivo. La quinta aumentada crea tensión hacia arriba. Los Beatles lo usaban dramáticamente.',
+  '7#9':   'El acorde Hendrix — Purple Haze. Tiene tercera mayor Y menor simultáneamente. Salvaje.',
+  sus2:    'Sin tercera, abierto, moderno. El favorito del pop de los 90. Sting lo usaba constantemente.',
+  sus4:    'Suspensión que resuelve al mayor. The Edge de U2 construyó su sonido sobre este acorde.',
+  '5':     'Solo tónica y quinta. Ni mayor ni menor. El lenguaje universal del rock desde Chuck Berry.',
+  m7b5:   'El semidisminuido del jazz. El ii en tonalidad menor. Bill Evans lo amaba.',
+  maj9:    'Extensión del maj7 con más color. Jazz moderno y bossa sofisticada.',
+  '9':     'Dominante con novena. El sabor del soul y el R&B.',
+  add9:    'Novena sin séptima — abierto y colorido sin tensión. Pop moderno.',
+  '6':     'Mayor con sexta — elegante y luminoso. Perfecto para terminar una canción con clase.',
+  dim:     'Tríada disminuida — máxima tensión en tres notas. Paso cromático clásico.',
+  mmaj7:   'Oscuro e inquietante. La séptima mayor sobre menor. Jazz noir y tango moderno.'
 };
 
-// Estado
-let chordDB = null;
+// ── ESTADO ───────────────────────────────────────────────
+let chordDB    = null;
 let notaActiva = 'C';
-let famActiva = 'mayor';
+let famActiva  = 'mayor';
 let subfamActiva = null;
-let modalAcorde = null;
+let modalData  = null; // {key, suf, posIdx}
 let modoCirculo = 'intervalos';
-let audioCtx = null;
+let audioCtx   = null;
 
+// ── INIT ─────────────────────────────────────────────────
 window.onload = () => { renderNotaBtns(); renderFamTabs(); };
 
 function mostrarTab(tab) {
@@ -210,19 +220,24 @@ function mostrarTab(tab) {
   if (tab === 'biblioteca' && !chordDB) cargarDB();
 }
 
+// ── CARGAR JSON ──────────────────────────────────────────
 async function cargarDB() {
-  document.getElementById('acordes-grid').innerHTML = '<p style="color:#888;padding:20px">Cargando biblioteca...</p>';
+  document.getElementById('acordes-grid').innerHTML =
+    '<p style="color:#888;padding:20px">Cargando biblioteca de acordes...</p>';
   try {
     const r = await fetch('/guitar.json');
-    if (!r.ok) throw new Error('No se pudo cargar guitar.json');
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
-    // data.chords = array de {key, suffix, positions:[]}
+    // Estructura: data.chords = { C: {0:{key,suffix,positions}, 1:...}, Csharp: {...}, ... }
     chordDB = {};
-    for (const item of data.chords) {
-      const k = item.key;
-      const s = item.suffix;
-      if (!chordDB[k]) chordDB[k] = {};
-      chordDB[k][s] = item.positions || [];
+    for (const rawKey of Object.keys(data.chords)) {
+      // Normalizar clave: Csharp → C#, Eb → Eb, etc.
+      const key = rawKey.replace('sharp','#');
+      chordDB[key] = {};
+      for (const idx of Object.keys(data.chords[rawKey])) {
+        const item = data.chords[rawKey][idx];
+        if (item.suffix) chordDB[key][item.suffix] = item.positions || [];
+      }
     }
     renderAcordes();
   } catch(e) {
@@ -231,6 +246,7 @@ async function cargarDB() {
   }
 }
 
+// ── CONTROLES ────────────────────────────────────────────
 function renderNotaBtns() {
   document.getElementById('nota-btns').innerHTML = NOTAS.map(n =>
     `<button class="btn-nota${n===notaActiva?' active':''}" onclick="setNota('${n}')">${n}</button>`
@@ -239,21 +255,18 @@ function renderNotaBtns() {
 
 function renderFamTabs() {
   document.getElementById('fam-tabs').innerHTML = FAMILIAS.map(f =>
-    `<button class="btn-fam${f.id===famActiva?' active':''}" data-fam="${f.id}" onclick="setFam('${f.id}')">${f.label}</button>`
+    `<button class="btn-fam${f.id===famActiva?' active':''}" data-fam="${f.id}"
+      onclick="setFam('${f.id}')">${f.label}</button>`
   ).join('');
 }
-
-function setNota(n) { notaActiva = n; renderNotaBtns(); renderAcordes(); }
-function setFam(f) { famActiva = f; subfamActiva = null; renderFamTabs(); renderSubfamTabs(); renderAcordes(); }
-function setSubfam(s) { subfamActiva = (subfamActiva === s) ? null : s; renderSubfamTabs(); renderAcordes(); }
 
 function getFamColor() { return (FAMILIAS.find(f=>f.id===famActiva)||{}).color||'#557799'; }
 
 function renderSubfamTabs() {
-  const fam = FAMILIAS.find(f => f.id === famActiva);
+  const fam = FAMILIAS.find(f=>f.id===famActiva);
   if (!fam || !chordDB) return;
-  const disponibles = fam.sufijos.filter(s => chordDB[notaActiva] && chordDB[notaActiva][s]?.length);
   const color = getFamColor();
+  const disponibles = fam.sufijos.filter(s => chordDB[notaActiva]?.[s]?.length);
   document.getElementById('subfam-tabs').innerHTML = disponibles.map(s =>
     `<button class="btn-fam${subfamActiva===s?' active':''}"
       style="${subfamActiva===s?`background:${color};color:white;border-color:transparent`:''}"
@@ -261,150 +274,160 @@ function renderSubfamTabs() {
   ).join('');
 }
 
+function setNota(n)  { notaActiva = n; renderNotaBtns(); renderSubfamTabs(); renderAcordes(); }
+function setFam(f)   { famActiva = f; subfamActiva = null; renderFamTabs(); renderSubfamTabs(); renderAcordes(); }
+function setSubfam(s){ subfamActiva = (subfamActiva===s)?null:s; renderSubfamTabs(); renderAcordes(); }
+
+// ── RENDER ACORDES ────────────────────────────────────────
 function renderAcordes() {
   if (!chordDB) return;
-  const fam = FAMILIAS.find(f => f.id === famActiva);
+  const fam = FAMILIAS.find(f=>f.id===famActiva);
   if (!fam) return;
-  const key = notaActiva;
-  const chords = chordDB[key] || {};
+  const chords = chordDB[notaActiva] || {};
   const sufijos = subfamActiva ? [subfamActiva] : fam.sufijos;
   renderSubfamTabs();
   let html = '';
   for (const suf of sufijos) {
     if (!chords[suf]?.length) continue;
-    const nombre = key + (suf==='major'?'': suf==='minor'?'m': suf);
-    const formula = FORMULA_MAP[suf] || suf;
-    html += `<div class="acorde-card" onclick="abrirModal('${key}','${suf}',0)">
+    const nombre = notaActiva + (suf==='major'?'': suf==='minor'?'m': suf);
+    html += `<div class="acorde-card" onclick="abrirModal('${notaActiva}','${suf}',0)">
       <div class="acorde-nombre">${nombre}</div>
-      <div class="acorde-formula">${formula}</div>
-      <div class="diagrama-wrap">${diagramaSVG(chords[suf][0], key, suf, 'intervalos', 52)}</div>
+      <div class="acorde-formula">${FORMULA_MAP[suf]||suf}</div>
+      <div class="diagrama-wrap">${diagramaSVG(chords[suf][0], notaActiva, 'intervalos', 50)}</div>
     </div>`;
   }
   document.getElementById('acordes-grid').innerHTML = html ||
     '<p style="color:#aaa;padding:20px">No hay acordes disponibles.</p>';
 }
 
-function diagramaSVG(pos, notaRaiz, suf, modo, sz) {
+// ── DIAGRAMA SVG ─────────────────────────────────────────
+function diagramaSVG(pos, notaRaiz, modo, sz) {
   if (!pos) return '';
   const { frets=[], fingers=[], baseFret=1, barres=[] } = pos;
-  const midi = pos.midi || [];
-  const nS=6, nF=4, cw=sz, rh=sz*0.42, pad=sz*0.55, topPad=sz*0.55;
-  const W = pad+(nS-1)*cw+pad+sz*0.5, H = topPad+nF*rh+pad;
-  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-  svg += `<rect width="${W}" height="${H}" fill="white" rx="4"/>`;
+  const nS=6, nF=4, cw=sz, rh=sz*0.42, pad=sz*0.55, top=sz*0.55;
+  const W=pad+(nS-1)*cw+pad+sz*0.5, H=top+nF*rh+pad;
+  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  s += `<rect width="${W}" height="${H}" fill="white" rx="4"/>`;
 
   const bf = baseFret||1;
-  if (bf > 1) {
-    svg += `<text x="${W-sz*0.1}" y="${topPad+rh*0.6}" font-size="${sz*0.26}" fill="#333" font-weight="700" text-anchor="end">${bf}fr</text>`;
+  if (bf>1) {
+    s += `<text x="${W-sz*0.08}" y="${top+rh*0.55}" font-size="${sz*0.24}" fill="#444" font-weight="700" text-anchor="end">${bf}fr</text>`;
   } else {
-    svg += `<rect x="${pad-sz*0.08}" y="${topPad-rh*0.12}" width="${(nS-1)*cw+sz*0.16}" height="${rh*0.18}" fill="#111" rx="2"/>`;
+    s += `<rect x="${pad-sz*0.08}" y="${top-rh*0.1}" width="${(nS-1)*cw+sz*0.16}" height="${rh*0.18}" fill="#111" rx="2"/>`;
   }
 
+  // Trastes y cuerdas
   for (let f=0; f<=nF; f++) {
-    const y = topPad+f*rh;
-    svg += `<line x1="${pad}" y1="${y}" x2="${pad+(nS-1)*cw}" y2="${y}" stroke="#ccc" stroke-width="1"/>`;
-    if (f>0) svg += `<text x="${pad+(nS-1)*cw+sz*0.15}" y="${y-rh*0.25}" font-size="${sz*0.2}" fill="#bbb">${bf+f-1}</text>`;
+    const y=top+f*rh;
+    s += `<line x1="${pad}" y1="${y}" x2="${pad+(nS-1)*cw}" y2="${y}" stroke="#ccc" stroke-width="1"/>`;
+    if (f>0) s += `<text x="${pad+(nS-1)*cw+sz*0.14}" y="${y-rh*0.22}" font-size="${sz*0.19}" fill="#bbb">${bf+f-1}</text>`;
   }
-  for (let s=0; s<nS; s++)
-    svg += `<line x1="${pad+s*cw}" y1="${topPad}" x2="${pad+s*cw}" y2="${topPad+nF*rh}" stroke="#999" stroke-width="1.2"/>`;
+  for (let i=0; i<nS; i++)
+    s += `<line x1="${pad+i*cw}" y1="${top}" x2="${pad+i*cw}" y2="${top+nF*rh}" stroke="#999" stroke-width="1.2"/>`;
 
+  // Barras (cejillas)
   for (const b of barres) {
-    const bf2 = b.fret||1;
-    const y = topPad+(bf2-0.5)*rh;
-    const x1 = pad+(nS-1-(b.toSting||1)+1-1)*cw;
+    const fy = b.fret||1;
+    const y  = top+(fy-0.5)*rh;
+    const x1 = pad+(nS-1-(b.toSting||1))*cw;
     const x2 = pad+(nS-1-(b.fromString||6)+1)*cw;
-    if (x2 > x1)
-      svg += `<rect x="${x1}" y="${y-rh*0.32}" width="${x2-x1}" height="${rh*0.64}" fill="#ddd" stroke="#666" stroke-width="1" rx="${rh*0.28}"/>`;
+    if (x2>x1) s += `<rect x="${x1}" y="${y-rh*0.3}" width="${x2-x1}" height="${rh*0.6}" fill="#e0e0e0" stroke="#666" stroke-width="1" rx="${rh*0.25}"/>`;
   }
 
-  const cx0 = s => pad+(nS-1-s)*cw;
+  // Marcadores
+  const cx0 = i => pad+(nS-1-i)*cw;
   const raizIdx = NOTAS.indexOf(notaRaiz);
 
-  for (let s=0; s<nS; s++) {
-    const f = frets[s];
-    if (f===-1||f===-0&&frets[s]!==0) {
-      if (f===-1) svg += `<text x="${cx0(s)}" y="${topPad-sz*0.15}" font-size="${sz*0.28}" fill="#888" text-anchor="middle" font-weight="700">×</text>`;
-    }
-    if (frets[s]===-1) continue;
-    if (frets[s]===0) {
-      svg += `<circle cx="${cx0(s)}" cy="${topPad-sz*0.2}" r="${sz*0.13}" fill="none" stroke="#888" stroke-width="1.5"/>`;
+  for (let i=0; i<nS; i++) {
+    const f = frets[i];
+    if (f===-1) {
+      s += `<text x="${cx0(i)}" y="${top-sz*0.14}" font-size="${sz*0.27}" fill="#888" text-anchor="middle" font-weight="700">×</text>`;
       continue;
     }
-    const cx = cx0(s), cy = topPad+(f-0.5)*rh, r = sz*0.27;
-    const midiNote = MIDI_BASE[s]+(bf-1+f);
+    if (f===0) {
+      s += `<circle cx="${cx0(i)}" cy="${top-sz*0.2}" r="${sz*0.13}" fill="none" stroke="#888" stroke-width="1.5"/>`;
+      continue;
+    }
+    const cx=cx0(i), cy=top+(f-0.5)*rh, r=sz*0.26;
+    const midiNote = MIDI_BASE[i]+(bf-1+f);
     const intervIdx = raizIdx>=0 ? ((midiNote-raizIdx)%12+12)%12 : 0;
-    const itv = ITVS[intervIdx]||'?';
-    const notaNombre = NOTAS[midiNote%12]||'?';
-    const dedo = fingers[s]||'';
-    const label = modo==='intervalos'?itv : modo==='notas'?notaNombre : String(dedo);
-    const isTonica = intervIdx===0;
-    svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${isTonica?'#557799':'white'}" stroke="${isTonica?'#335577':'#cc4444'}" stroke-width="1.5"/>`;
-    svg += `<text x="${cx}" y="${cy+sz*0.09}" font-size="${label.length>2?sz*0.16:sz*0.2}" fill="${isTonica?'white':'#222'}" text-anchor="middle" font-weight="700">${label}</text>`;
+    const itv   = ITVS[intervIdx]||'?';
+    const nota  = NOTAS[midiNote%12]||'?';
+    const dedo  = fingers[i]||'';
+    const label = modo==='intervalos'?itv : modo==='notas'?nota : String(dedo);
+    const isTon = intervIdx===0;
+    s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${isTon?'#557799':'white'}" stroke="${isTon?'#335577':'#cc4444'}" stroke-width="1.5"/>`;
+    s += `<text x="${cx}" y="${cy+sz*0.09}" font-size="${label.length>2?sz*0.15:sz*0.19}" fill="${isTon?'white':'#222'}" text-anchor="middle" font-weight="700">${label}</text>`;
   }
-  svg += '</svg>';
-  return svg;
+  s += '</svg>';
+  return s;
 }
 
+// ── MODAL ────────────────────────────────────────────────
 function abrirModal(key, suf, posIdx) {
-  if (!chordDB?.[key]?.[suf]) return;
-  modalAcorde = { key, suf, posIdx };
+  if (!chordDB?.[key]?.[suf]?.length) return;
+  modalData = { key, suf, posIdx };
   renderModal();
   document.getElementById('modal').classList.add('open');
 }
 function cerrarModal() { document.getElementById('modal').classList.remove('open'); }
+
 function navPos(dir) {
-  if (!modalAcorde) return;
-  const total = chordDB[modalAcorde.key][modalAcorde.suf].length;
-  modalAcorde.posIdx = (modalAcorde.posIdx+dir+total)%total;
+  if (!modalData) return;
+  const total = chordDB[modalData.key][modalData.suf].length;
+  modalData.posIdx = (modalData.posIdx+dir+total)%total;
   renderModal();
 }
+
 function setModo(m) {
   modoCirculo = m;
   document.querySelectorAll('.btn-modo').forEach(b =>
     b.classList.toggle('active', b.textContent.toLowerCase().startsWith(m.substring(0,3))));
-  if (modalAcorde) renderModal();
+  if (modalData) renderModal();
 }
 
 function renderModal() {
-  const { key, suf, posIdx } = modalAcorde;
+  const { key, suf, posIdx } = modalData;
   const nombre = key+(suf==='major'?'':suf==='minor'?'m':suf);
-  const poses = chordDB[key][suf];
-  const pos = poses[posIdx];
-  document.getElementById('m-titulo').textContent = nombre;
+  const poses  = chordDB[key][suf];
+  const pos    = poses[posIdx];
+  document.getElementById('m-titulo').textContent  = nombre;
   document.getElementById('m-formula').textContent = 'Fórmula: '+(FORMULA_MAP[suf]||suf);
-  document.getElementById('m-pos').textContent = `pos ${posIdx+1} / ${poses.length}`;
-  document.getElementById('m-diagrama').innerHTML = diagramaSVG(pos, key, suf, modoCirculo, 70);
-  document.getElementById('m-desc').textContent = DESCRIPCIONES[suf]||'';
-  const st = (pos.frets||[]).map(f => f===-1?'×':f===0?'○':'').reverse();
-  document.getElementById('m-cuerdas-status').innerHTML = st.map(l=>`<span style="width:14%">${l}</span>`).join('');
+  document.getElementById('m-pos').textContent     = `pos ${posIdx+1} / ${poses.length}`;
+  document.getElementById('m-diagrama').innerHTML  = diagramaSVG(pos, key, modoCirculo, 68);
+  document.getElementById('m-desc').textContent    = DESCRIPCIONES[suf]||'';
+  const st = (pos.frets||[]).map(f=>f===-1?'×':f===0?'○':'').reverse();
+  document.getElementById('m-cuerdas').innerHTML   = st.map(l=>`<span>${l}</span>`).join('');
 }
 
+// ── AUDIO ────────────────────────────────────────────────
 function playAcorde() {
-  if (!modalAcorde) return;
-  const pos = chordDB[modalAcorde.key][modalAcorde.suf][modalAcorde.posIdx];
+  if (!modalData) return;
+  const pos  = chordDB[modalData.key][modalData.suf][modalData.posIdx];
   const midi = pos.midi||[];
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   midi.forEach((note,i) => {
     if (!note) return;
-    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.frequency.value = 440*Math.pow(2,(note-69)/12);
     osc.type = 'triangle';
     const t = audioCtx.currentTime+i*0.07;
     gain.gain.setValueAtTime(0,t);
-    gain.gain.linearRampToValueAtTime(0.18,t+0.02);
+    gain.gain.linearRampToValueAtTime(0.16,t+0.02);
     gain.gain.exponentialRampToValueAtTime(0.001,t+2);
     osc.start(t); osc.stop(t+2);
   });
 }
 
+// ── BUSCADOR ─────────────────────────────────────────────
 async function buscar() {
   const q = document.getElementById('inp').value.trim();
   if (!q) return;
-  const st = document.getElementById('status');
+  const st  = document.getElementById('status');
   const res = document.getElementById('resultado');
-  st.textContent = '⏳ Buscando...';
-  res.innerHTML = '';
+  st.textContent  = '⏳ Buscando...';
+  res.innerHTML   = '';
   try {
     const r = await fetch('/api/buscar', {
       method:'POST',
@@ -417,22 +440,26 @@ async function buscar() {
     renderCancion(data);
   } catch(e) {
     st.textContent = '';
-    res.innerHTML = `<p style="color:red;padding:20px">No se pudo cargar: ${e.message}</p>`;
+    res.innerHTML  = `<p style="color:red;padding:20px">No se pudo cargar: ${e.message}</p>`;
   }
 }
 
 function renderCancion(d) {
-  const secColor = s => {
-    const t=(s||'').toLowerCase();
+  const secColor = n => {
+    const t=(n||'').toLowerCase();
     if(t.includes('estrib')) return 'sec-estribillo';
-    if(t.includes('puente')) return 'sec-puente';
-    if(t.includes('intro')) return 'sec-intro';
-    if(t.includes('outro')) return 'sec-outro';
+    if(t.includes('puente')||t.includes('bridge')) return 'sec-puente';
+    if(t.includes('intro'))  return 'sec-intro';
+    if(t.includes('outro'))  return 'sec-outro';
     return 'sec-estrofa';
   };
   let html = `<div class="cancion">
     <div class="cancion-titulo">${d.titulo||''}</div>
-    <div class="cancion-meta"><span>${d.artista||''}</span><span>${d.compas||'4/4'}</span><span>${d.genero||''}</span></div>`;
+    <div class="cancion-meta">
+      <span>${d.artista||''}</span>
+      <span>${d.compas||'4/4'}</span>
+      <span>${d.genero||''}</span>
+    </div>`;
   for (const sec of (d.secciones||[])) {
     html += `<div class="seccion ${secColor(sec.nombre)}">
       <div class="seccion-label">${sec.nombre||''}</div>
