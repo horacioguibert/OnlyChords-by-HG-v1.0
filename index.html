@@ -231,7 +231,7 @@ function mostrarTab(tab) {
 async function cargarDB() {
   document.getElementById('acordes-grid').innerHTML = '<p style="color:#888;padding:20px">Cargando biblioteca de acordes...</p>';
   try {
-    const r = await fetch('/public/guitar.json');
+    const r = await fetch('/api/buscar?guitar=1');
     if (!r.ok) throw new Error('No se pudo cargar guitar.json');
     const data = await r.json();
     chordDB = data.chords;
