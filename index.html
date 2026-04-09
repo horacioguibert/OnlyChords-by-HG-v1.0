@@ -163,12 +163,12 @@ const MIDI_BASE = [40,45,50,55,59,64]; // E2 A2 D3 G3 B3 E4
 
 // 7 familias con sufijos del JSON mapeados
 const FAMILIAS = [
-  { id:'mayor', label:'Mayor 🔵', color:'#2277bb', sufijos:['major','maj7','maj9','6','69','add9','sus2','sus4','maj7#11'] },
-  { id:'menor', label:'Menor 🟢', color:'#228855', sufijos:['minor','m7','m9','m6','madd9','msus2','msus4','mmaj7','m11','m13'] },
-  { id:'dominante', label:'Dominante 🔴', color:'#cc4433', sufijos:['7','9','11','13','7sus4','7b5','7#5','7b9','7#9','9b5','13b9','13#9','7alt'] },
-  { id:'disminuido', label:'Disminuido 🟡', color:'#aa8800', sufijos:['dim','dim7','aug7','augmaj7'] },
-  { id:'semidim', label:'Semidism. 🟠', color:'#cc6600', sufijos:['m7b5','m9b5'] },
-  { id:'aumentado', label:'Aumentado 🟣', color:'#7744aa', sufijos:['aug'] },
+  { id:'mayor', label:'Mayor 🔵', color:'#2277bb', sufijos:['major','add9','add11','sus2','sus4','sus2sus4','6','69','maj7','maj9','maj11','maj13','maj7#5','maj7sus2'] },
+  { id:'menor', label:'Menor 🟢', color:'#228855', sufijos:['minor','madd9','msus2','m6','m69','m7','m9','m11','mmaj7','mmaj7b5','mmaj9','mmaj11'] },
+  { id:'dominante', label:'Dominante 🔴', color:'#cc4433', sufijos:['7','7sus4','7/G','alt','9','9b5','9#11','9sus4','7b5','7b9','7#9','11','13'] },
+  { id:'disminuido', label:'Disminuido 🟡', color:'#aa8800', sufijos:['dim','dim7'] },
+  { id:'semidim', label:'Semidism. 🟠', color:'#cc6600', sufijos:['m7b5','maj7b5'] },
+  { id:'aumentado', label:'Aumentado 🟣', color:'#7744aa', sufijos:['aug','aug7','aug9'] },
   { id:'power', label:'Power 🎸', color:'#333', sufijos:['5'] }
 ];
 
@@ -231,10 +231,15 @@ function mostrarTab(tab) {
 async function cargarDB() {
   document.getElementById('acordes-grid').innerHTML = '<p style="color:#888;padding:20px">Cargando biblioteca de acordes...</p>';
   try {
-    const r = await fetch('/guitar.json');
+    const r = await fetch('/public/guitar.json');
     if (!r.ok) throw new Error('No se pudo cargar guitar.json');
     const data = await r.json();
-    chordDB = data.chords;
+    // Convertir array a objeto por key
+    const raw = data.chords;
+    chordDB = {};
+    for (const entry of raw) {
+      chordDB[entry.key] = entry.chords || {};
+    }
     renderAcordes();
   } catch(e) {
     document.getElementById('acordes-grid').innerHTML = `<p style="color:red;padding:20px">Error cargando biblioteca: ${e.message}</p>`;
