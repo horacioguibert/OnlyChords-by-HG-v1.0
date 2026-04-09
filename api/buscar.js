@@ -1,5 +1,25 @@
 const https = require("https");
 
+function httpGet(path, apiKey) {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: "generativelanguage.googleapis.com",
+      path: path + "?key=" + apiKey,
+      method: "GET"
+    };
+    const req = https.request(options, (res) => {
+      let data = "";
+      res.on("data", chunk => { data += chunk; });
+      res.on("end", () => {
+        try { resolve(JSON.parse(data)); }
+        catch(e) { resolve({ error: e.message }); }
+      });
+    });
+    req.on("error", e => resolve({ error: e.message }));
+    req.end();
+  });
+}
+
 function tryModel(model, postData, apiKey) {
   return new Promise((resolve) => {
     const options = {
@@ -40,17 +60,18 @@ module.exports = async (req, res) => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "Sin API key" });
 
-  const MODELS = [
-    "gemini-2.0-flash-lite",
-    "gemini-2.0-flash",
-    "gemini-2.0-flash-exp",
-    "gemini-2.0-pro-exp",
-    "gemini-2.0-flash-thinking-exp",
-    "gemini-1.5-flash",
-    "gemini-1.5-flash-8b",
-    "gemini-1.5-pro",
-    "gemini-pro"
-  ];
+  // obtener modelos disponibles para esta clave
+  const listResult = await httpGet("/v1beta/models", apiKey);
+  if (listResult.error) return res.status(500).json({ error: "No se pudo listar modelos: " + listResult.error });
+
+  // filtrar solo los que soportan generateContent
+  const availableModels = (listResult.models || [])
+    .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"))
+    .map(m => m.name.replace("models/", ""));
+
+  if (availableModels.length === 0) {
+    return res.status(500).json({ error: "No hay modelos disponibles para esta API key", raw: JSON.stringify(listResult).substring(0, 300) });
+  }
 
   const prompt = `Return ONLY a valid JSON object for the song "${query}". No markdown, no backticks, no explanation. Structure:
 {"titulo":"Song Name","artista":"Artist","genero":"jazz","compas":"4/4","secciones":[{"label":"ESTROFA","compases":[{"beats":[{"chord":"Am","note":""}],"lyric":"lyric line"}]}]}
@@ -63,7 +84,7 @@ Valid labels: INTRO ESTROFA ESTRIBILLO PUENTE OUTRO. Valid genres: pop jazz rock
 
   let lastError = "";
 
-  for (const model of MODELS) {
+  for (const model of availableModels) {
     const result = await tryModel(model, postData, apiKey);
     if (!result.ok) { lastError = model + ": " + result.error; continue; }
 
@@ -75,12 +96,16 @@ Valid labels: INTRO ESTROFA ESTRIBILLO PUENTE OUTRO. Valid genres: pop jazz rock
     try {
       const json = JSON.parse(txt.substring(first, last + 1));
       if (!json.titulo || !json.secciones) { lastError = model + ": invalid structure"; continue; }
+      json._modelo = model;
       return res.status(200).json(json);
     } catch(e) {
-      lastError = model + ": parse error " + e.message;
+      lastError = model + ": parse error";
       continue;
     }
   }
 
-  return res.status(500).json({ error: "Ningún modelo disponible. Último error: " + lastError });
+  return res.status(500).json({ 
+    error: "Ningún modelo funcionó. Último: " + lastError,
+    modelos_disponibles: availableModels
+  });
 };
